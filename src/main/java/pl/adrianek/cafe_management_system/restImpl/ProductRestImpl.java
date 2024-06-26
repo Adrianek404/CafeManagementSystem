@@ -4,26 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import pl.adrianek.cafe_management_system.POJO.Category;
 import pl.adrianek.cafe_management_system.constants.CafeConstant;
-import pl.adrianek.cafe_management_system.rest.CategoryRest;
-import pl.adrianek.cafe_management_system.service.CategoryService;
+import pl.adrianek.cafe_management_system.rest.ProductRest;
+import pl.adrianek.cafe_management_system.service.ProductService;
 import pl.adrianek.cafe_management_system.utils.CafeUtils;
+import pl.adrianek.cafe_management_system.wrapper.ProductWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-public class CategoryRestImpl implements CategoryRest {
+public class ProductRestImpl implements ProductRest {
 
     @Autowired
-    CategoryService categoryService;
+    ProductService productService;
 
     @Override
-    public ResponseEntity<String> addNewCategory(Map<String, String> requestMap) {
+    public ResponseEntity<String> addNewProduct(Map<String, String> requestMap) {
         try{
-            return categoryService.addNewCategory(requestMap);
+            return productService.addNewProduct(requestMap);
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -31,9 +31,9 @@ public class CategoryRestImpl implements CategoryRest {
     }
 
     @Override
-    public ResponseEntity<List<Category>> getAllCategory(String filterValue) {
+    public ResponseEntity<List<ProductWrapper>> getAllProduct() {
         try{
-            return categoryService.getAllCategory(filterValue);
+            return productService.getAllProduct();
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -41,12 +41,12 @@ public class CategoryRestImpl implements CategoryRest {
     }
 
     @Override
-    public ResponseEntity<String> updateCategory(Map<String, String> requestMap) {
+    public ResponseEntity<String> updateProduct(Map<String, String> requestMap) {
         try{
-            return categoryService.updateCategory(requestMap);
+            return productService.updateProduct(requestMap);
         } catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>(CafeConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+        return CafeUtils.getResponseEntity(CafeConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
